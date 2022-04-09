@@ -1,11 +1,15 @@
+import { signOut } from 'firebase/auth';
 import React from 'react';
 import { Container, Nav, Navbar } from 'react-bootstrap';
+import { useAuthState } from 'react-firebase-hooks/auth';
 import { Link } from 'react-router-dom';
+import auth from '../../firebase.init';
 import useFirebase from '../../hooks/useFirebase';
 import './Header.css'
 
 const Header = () => {
-    const { user, signOutHandler } = useFirebase()
+    // const { user, signOutHandler } = useFirebase()
+    const [user] = useAuthState(auth);
     console.log(user)
     return (
         <Navbar bg="light" expand="lg">
@@ -19,10 +23,10 @@ const Header = () => {
                         <Link to='/orders' className='nav-link'>Orders</Link>
                         <Link to='/reviews' className='nav-link'>Reviews</Link>
                         {
-                            user.uid
+                            user?.uid
                                 ?
                                 <>
-                                    <button onClick={signOutHandler} className='btn btn-outline-danger btn-sm me-3'>SignOut</button>
+                                    <button onClick={()=>signOut(auth)} className='btn btn-outline-danger btn-sm me-3'>SignOut</button>
                                     <img className='user-img border border-primary' src={user.photoURL} alt="" />
 
                                 </>

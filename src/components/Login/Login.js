@@ -1,16 +1,21 @@
 import React from 'react';
 import { Button, Form } from 'react-bootstrap';
 import useFirebase from '../../hooks/useFirebase';
+import {useSignInWithGoogle} from 'react-firebase-hooks/auth'
+import auth from '../../firebase.init';
 
 const Login = () => {
-    const {signInwithGoogleHandler} = useFirebase();
+    // const {signInwithGoogleHandler} = useFirebase();
+
+    const [signInWithGoogle, user,error] = useSignInWithGoogle(auth);
+    
     return (
         <div className='container'>
             <div>
                 <h3>Login</h3>
             </div>
-            <div onClick={signInwithGoogleHandler} className='text-center'>
-                <button className='btn btn-danger'>Sign in with Google</button>
+            <div className='text-center'>
+                <button onClick={()=>signInWithGoogle()} className='btn btn-danger'>Sign in with Google</button>
             </div>
             <div className='w-75 mx-auto'>
                 <Form>
